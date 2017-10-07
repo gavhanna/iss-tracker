@@ -134,8 +134,14 @@ function getCurrentPositionPassTimes() {
   //       });
   //     });
   // } else {
+    console.log("LOOKING FOR LOCATION");
+    
     $.getJSON("http://ip-api.com/json", function(data) {
+      console.log("FOUND LOCATION");
+      
       $.getJSON('http://api.open-notify.org/iss-pass.json?lat=' + data.lat + '&lon=' + data.lon + '&alt=20&n=5&callback=?', function(data) {
+        console.log("DOING SHIT WITH LOCATION");
+        
         let dates = [];
         data['response'].forEach(function (d) {
             var date = new Date(d['risetime']*1000);
