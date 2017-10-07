@@ -94,9 +94,27 @@ function moveISS () {
       addMarker(pos);
       map.setCenter(pos);
   });
+  getISSInfo();
   setTimeout(moveISS, 2000); 
 }
 
+function getISSInfo() {
+  $.getJSON('https://api.wheretheiss.at/v1/satellites/25544', function(data) {
+    const altitude = data['altitude'].toString().split(".")[0];
+    const speed = data['velocity'].toString().split(".")[0];
+    const visibility = data['visibility'];
+    const infoDiv = document.querySelector(".info");
+
+    infoDiv.innerHTML = "";
+    infoDiv.innerHTML += "<p>Altitude: " + altitude + " km</p>";
+    infoDiv.innerHTML += "<p>Speed: " + speed + " km/h</p>";
+    infoDiv.innerHTML += "<p>Visilibity: " + visibility + "</p>";
+
+
+  });
+}
+
+getISSInfo();
 moveISS();
 
 const menuButton = document.getElementById("menu-btn");
@@ -106,72 +124,5 @@ const passTimesUL = document.getElementById("pass-times");
 menuButton.addEventListener("click", openMenu);
 
 function openMenu() {
-  // if (menu.style.zIndex != "-1") {
-  //   menu.style.zIndex = "-1";
-  // } else {
-  //   menu.style.zIndex = "1";
-  // }
   menu.classList.toggle("visible");
 }
-
-
-
-function getCurrentPositionPassTimes() {
-  // if ("geolocation" in navigator) {
-  //   navigator.geolocation.getCurrentPosition(function(position) {
-  //     $.getJSON('http://api.open-notify.org/iss-pass.json?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude + '&alt=20&n=5&callback=?', function(data) {
-  //       let dates = [];
-  //       data['response'].forEach(function (d) {
-  //           var date = new Date(d['risetime']*1000);
-  //           console.log(date);
-  //           dates.push(date);
-  //         });
-  //         let items = "";
-  //         dates.forEach((el) => {
-  //           items += "<li class='list-item'>" + moment(el).format('MMMM Do YYYY, h:mm a') + "</li>";
-  //         });
-  //         passTimesUL.innerHTML = items;
-  //       });
-  //     });
-  // } else {
-    console.log("LOOKING FOR LOCATION");
-    
-    $.getJSON("http://ip-api.com/json", function(data) {
-      console.log("FOUND LOCATION");
-      
-      $.getJSON('http://api.open-notify.org/iss-pass.json?lat=' + data.lat + '&lon=' + data.lon + '&alt=20&n=5&callback=?', function(data) {
-        console.log("DOING SHIT WITH LOCATION");
-        
-        let dates = [];
-        data['response'].forEach(function (d) {
-            var date = new Date(d['risetime']*1000);
-            console.log(date);
-            dates.push(date);
-          });
-          let items = "";
-          dates.forEach((el) => {
-            items += "<li class='list-item'>" + moment(el).format('MMMM Do YYYY, h:mm a') + "</li>";
-          });
-          passTimesUL.innerHTML = items;
-        });  
-    });
-  //}
-}
-
-function getCurrentAstonauts() {
-  $.getJSON('http://api.open-notify.org/astros.json?callback=?', function(data) {
-    var number = data['number'];
-    $('#spacepeeps').html(number);
-
-    data['people'].forEach(function (d, i) {
-      if (i == data['people'].length - 1) {
-        $('#astronames').append('<span> and ' + d['name'] + '</span>.');
-      } else {
-        $('#astronames').append('<span>' + d['name'] + '</span>, ');
-      }
-    });
-  });
-}
-
-getCurrentAstonauts();
-getCurrentPositionPassTimes();
