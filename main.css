@@ -10,9 +10,10 @@ body {
 .title {
   position: absolute;
   color: #333;
+  border: 1px solid grey;
   width: 50%;
-  max-width: 300px;
-  margin-left: -150px;
+  max-width: 240px;
+  margin-left: -120px;
   top: 10px;
   left: 50%;
   text-align: center;
