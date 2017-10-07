@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="main.css">
+    <script src="https://use.fontawesome.com/712f80daf2.js"></script>
+  </head>
+  <body>
+    <div id="map"></div>
+    <div class="title"><h1>ISS Tracker</h1></div>
+    <div id="menu-btn"><span><i class="fa fa-bars" aria-hidden="true"></i></span></div>
+    <div id="menu-wrapper">
+      <div id="menu-box">
+        <div class="menu">
+          <h3>The ISS will next pass over you at:</h3>
+          <ul id="pass-times"></ul>
+          <h3>There are currently <span id="spacepeeps"></span> people in space:</h3>
+          <p id="astronames"></p>
+          <br>
+          <aside><small>(Green circle is viewing distance.)</small></aside>
+        </div>
+      </div>
+    </div>
+    <script src="moment.js"></script>
+    <script
+    src="https://code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+    crossorigin="anonymous"></script>
+    <script src="app.js"></script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2DypLE0jvEa7jM_9nr2CdXeLAmvJpL8E&callback=initMap">
+    </script>
+  </body>
+</html>
