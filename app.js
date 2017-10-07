@@ -117,23 +117,23 @@ function openMenu() {
 
 
 function getCurrentPositionPassTimes() {
-  if ("geolocation" in navigator) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      $.getJSON('http://api.open-notify.org/iss-pass.json?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude + '&alt=20&n=5&callback=?', function(data) {
-        let dates = [];
-        data['response'].forEach(function (d) {
-            var date = new Date(d['risetime']*1000);
-            console.log(date);
-            dates.push(date);
-          });
-          let items = "";
-          dates.forEach((el) => {
-            items += "<li class='list-item'>" + moment(el).format('MMMM Do YYYY, h:mm a') + "</li>";
-          });
-          passTimesUL.innerHTML = items;
-        });
-      });
-  } else {
+  // if ("geolocation" in navigator) {
+  //   navigator.geolocation.getCurrentPosition(function(position) {
+  //     $.getJSON('http://api.open-notify.org/iss-pass.json?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude + '&alt=20&n=5&callback=?', function(data) {
+  //       let dates = [];
+  //       data['response'].forEach(function (d) {
+  //           var date = new Date(d['risetime']*1000);
+  //           console.log(date);
+  //           dates.push(date);
+  //         });
+  //         let items = "";
+  //         dates.forEach((el) => {
+  //           items += "<li class='list-item'>" + moment(el).format('MMMM Do YYYY, h:mm a') + "</li>";
+  //         });
+  //         passTimesUL.innerHTML = items;
+  //       });
+  //     });
+  // } else {
     $.getJSON("http://ip-api.com/json", function(data) {
       $.getJSON('http://api.open-notify.org/iss-pass.json?lat=' + data.lat + '&lon=' + data.lon + '&alt=20&n=5&callback=?', function(data) {
         let dates = [];
@@ -149,8 +149,7 @@ function getCurrentPositionPassTimes() {
           passTimesUL.innerHTML = items;
         });  
     });
-    
-  }
+  //}
 }
 
 function getCurrentAstonauts() {
