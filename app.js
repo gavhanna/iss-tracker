@@ -70,10 +70,24 @@ function removeAllcircles() {
   circles = [];
 }
 
+// function moveISS () {
+//   $.getJSON('http://api.open-notify.org/iss-now.json?callback=?', function(data) {
+//       var lati = data['iss_position']['latitude'];
+//       var longi = data['iss_position']['longitude'];
+//       var pos = {lat: parseFloat(lati), lng: parseFloat(longi)};
+//       deleteMarkers();
+//       removeAllcircles();
+//       addMarker(pos);
+//       map.setCenter(pos);
+//   });
+//   setTimeout(moveISS, 2000); 
+// }
+
+
 function moveISS () {
-  $.getJSON('http://api.open-notify.org/iss-now.json?callback=?', function(data) {
-      var lati = data['iss_position']['latitude'];
-      var longi = data['iss_position']['longitude'];
+  $.getJSON('https://api.wheretheiss.at/v1/satellites/25544', function(data) {
+      var lati = data['latitude'];
+      var longi = data['longitude'];
       var pos = {lat: parseFloat(lati), lng: parseFloat(longi)};
       deleteMarkers();
       removeAllcircles();
@@ -118,9 +132,24 @@ function getCurrentPositionPassTimes() {
           });
           passTimesUL.innerHTML = items;
         });
-    });
+      });
   } else {
-    return console.error("Geolocation not available.");
+    $.getJSON("http://ip-api.com/json", function(data) {
+      $.getJSON('http://api.open-notify.org/iss-pass.json?lat=' + data.lat + '&lon=' + data.lon + '&alt=20&n=5&callback=?', function(data) {
+        let dates = [];
+        data['response'].forEach(function (d) {
+            var date = new Date(d['risetime']*1000);
+            console.log(date);
+            dates.push(date);
+          });
+          let items = "";
+          dates.forEach((el) => {
+            items += "<li class='list-item'>" + moment(el).format('MMMM Do YYYY, h:mm a') + "</li>";
+          });
+          passTimesUL.innerHTML = items;
+        });  
+    });
+    
   }
 }
 
